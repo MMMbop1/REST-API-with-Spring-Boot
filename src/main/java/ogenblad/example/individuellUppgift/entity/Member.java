@@ -15,7 +15,7 @@ public class Member {
 
     private String lastName;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name="address_id")
     private Address address;
 

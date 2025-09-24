@@ -16,6 +16,14 @@ public class Address {
 
     private String city;
 
+    public Address() {}
+
+    public Address(String street, String postalCode, String city) {
+        this.street = street;
+        this.postalCode = postalCode;
+        this.city = city;
+    }
+
     public Long getId() {
         return id;
     }
