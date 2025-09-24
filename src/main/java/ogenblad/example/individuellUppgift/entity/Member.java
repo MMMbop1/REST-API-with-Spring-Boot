@@ -23,9 +23,18 @@ public class Member {
 
     private String phone;
 
-    private LocalDate dateOfBirth;
+    private String dateOfBirth;
 
     public Member() {}
+
+    public Member(String firstName, String lastName, Address address, String email, String phone, String dateOfBirth) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.address = address;
+        this.email = email;
+        this.phone = phone;
+        this.dateOfBirth = dateOfBirth;
+    }
 
     public Long getId() {
         return id;
@@ -75,11 +84,11 @@ public class Member {
         this.phone = phone;
     }
 
-    public LocalDate getDateOfBirth() {
+    public String getDateOfBirth() {
         return dateOfBirth;
     }
 
-    public void setDateOfBirth(LocalDate dateOfBirth) {
+    public void setDateOfBirth(String dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
 }
