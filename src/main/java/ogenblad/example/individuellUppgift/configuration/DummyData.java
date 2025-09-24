@@ -1,13 +1,13 @@
-package ogenblad.example.individuellUppgift.components;
+package ogenblad.example.individuellUppgift.configuration;
 
 import ogenblad.example.individuellUppgift.entity.Member;
 import ogenblad.example.individuellUppgift.repository.MemberRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
-import org.springframework.stereotype.Component;
+import org.springframework.context.annotation.Configuration;
 
-@Component
-public class Dummydata {
+@Configuration
+public class DummyData {
 
     @Bean
     public CommandLineRunner dummyData(MemberRepository repo) {
