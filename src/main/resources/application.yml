@@ -1,6 +1,19 @@
 spring:
+  profiles:
+    active: dev
   application:
     name: Individuell-Uppgift-Ludvig-Ogenblad
   datasource:
     generate-unique-name: false
     name: members-db
+---
+spring:
+  config:
+    activate:
+      on-profile: dev
+  jpa:
+    show_sql: true
+    properties:
+      hibernate:
+        generate_statistics: true
+
