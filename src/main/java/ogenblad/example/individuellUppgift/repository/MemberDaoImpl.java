@@ -2,6 +2,8 @@ package ogenblad.example.individuellUppgift.repository;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.Query;
+import jakarta.persistence.TypedQuery;
 import jakarta.transaction.Transactional;
 import ogenblad.example.individuellUppgift.entity.Member;
 
@@ -27,11 +29,14 @@ public class MemberDaoImpl implements MemberDao {
 
     @Transactional
     public List<Member> saveAll(List<Member> members) {
-
         for (Member member : members) {
             entityManager.persist(member);
         }
-
         return members;
+    }
+
+    public List<Member> findAll() {
+        TypedQuery<Member> preparedQuery = entityManager.createQuery("SELECT m FROM Member m LEFT JOIN FETCH m.address", Member.class);
+        return preparedQuery.getResultList();
     }
 }

@@ -8,4 +8,6 @@ public interface MemberDao {
     Member save(Member member);
 
     List<Member> saveAll(List<Member> members);
+
+    List<Member> findAll();
 }
