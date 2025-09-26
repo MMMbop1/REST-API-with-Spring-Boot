@@ -2,20 +2,18 @@ package ogenblad.example.individuellUppgift.entity;
 
 import jakarta.persistence.*;
 
-import java.time.LocalDate;
-
 @Entity
 public class Member {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String firstName;
 
     private String lastName;
 
-    @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name="address_id")
     private Address address;
 

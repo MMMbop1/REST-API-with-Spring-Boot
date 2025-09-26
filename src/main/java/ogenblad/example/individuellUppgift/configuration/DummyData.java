@@ -2,7 +2,7 @@ package ogenblad.example.individuellUppgift.configuration;
 
 import ogenblad.example.individuellUppgift.entity.Address;
 import ogenblad.example.individuellUppgift.entity.Member;
-import ogenblad.example.individuellUppgift.repository.MemberDao;
+import ogenblad.example.individuellUppgift.repository.DaoMember;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,7 +13,7 @@ import java.util.*;
 public class DummyData {
 
     @Bean
-    public CommandLineRunner initLoad(MemberDao repo) {
+    public CommandLineRunner initLoad(DaoMember repo) {
         return args -> {
             List<Member> members = new ArrayList<>();
 
