@@ -29,26 +29,29 @@ public class ControllerAdmin {
 
     @GetMapping("/{id}")
     public ResponseEntity<Member> getMember(@PathVariable Long id) {
-        return serviceMember.find(id)
-                .map((member) -> ResponseEntity.ok().body(member))
-                .orElseGet(() -> ResponseEntity.notFound().build());
-
+        Optional<Member> member = serviceMember.find(id);
+        if (member.isPresent()) {
+            return ResponseEntity.ok().body(member.get());
+        }
+        return ResponseEntity.notFound().build();
     }
 
     @PutMapping(value = "/{id}", consumes = "application/json")
     public ResponseEntity<Member> putMember(@PathVariable Long id, @RequestBody Member member) {
 
-        if (serviceAddress.find(member.getAddress().getId()).isEmpty()) {
+        Optional<Address> address = serviceAddress.find(member.getAddress().getId());
+
+        if (address.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
 
-        return serviceMember.find(id)
-                .map(existing -> {
-                    member.setId(id);
-                    serviceMember.update(member);
-                    return ResponseEntity.ok(member);
-                })
-                .orElseGet(() -> ResponseEntity.notFound().build());
+        if (serviceMember.find(id).isPresent()) {
+            member.setId(id);
+            serviceMember.update(member);
+            return ResponseEntity.ok().body(member);
+        }
+
+        return ResponseEntity.notFound().build();
     }
 
 }
