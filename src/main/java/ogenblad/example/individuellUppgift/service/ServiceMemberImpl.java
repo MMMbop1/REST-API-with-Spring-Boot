@@ -1,8 +1,10 @@
 package ogenblad.example.individuellUppgift.service;
 
+import ogenblad.example.individuellUppgift.entity.Address;
 import ogenblad.example.individuellUppgift.entity.Member;
 import ogenblad.example.individuellUppgift.exceptions.MemberNotFoundException;
 import ogenblad.example.individuellUppgift.repository.DaoMember;
+import ogenblad.example.individuellUppgift.repository.DaoMemberImpl;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -41,7 +43,35 @@ public class ServiceMemberImpl implements ServiceMember {
     }
 
     @Override
-    public Member patchUpdate(Member member) {
-        return null;
+    public Member patchUpdate(Member patchMember, Long id) {
+        Member member = find(id);
+
+        if (patchMember.getFirstName() != null) {
+            member.setFirstName(patchMember.getFirstName());
+        }
+
+        if (patchMember.getLastName() != null) {
+            member.setLastName(patchMember.getLastName());
+        }
+
+        if (patchMember.getAddress() != null && patchMember.getAddress().getId() != null) {
+            Address address = serviceAddress.find(patchMember.getAddress().getId());
+            member.setAddress(address);
+        }
+
+        if (patchMember.getEmail() != null) {
+            member.setEmail(patchMember.getEmail());
+        }
+
+        if (patchMember.getPhone() != null) {
+            member.setPhone(patchMember.getPhone());
+        }
+
+
+        if (patchMember.getDateOfBirth() != null) {
+            member.setDateOfBirth(patchMember.getDateOfBirth());
+        }
+
+        return memberDao.update(member);
     }
 }

@@ -43,16 +43,21 @@ public class ControllerAdmin {
     @PutMapping(value = "/{id}", consumes = "application/json")
     public ResponseEntity<?> putMember(@PathVariable Long id, @RequestBody Member member) {
         try {
-            serviceMember.update(member, id);
-            return ResponseEntity.ok().body(member);
+            Member updatedMember = serviceMember.update(member, id);
+            return ResponseEntity.ok().body(updatedMember);
         } catch (AddressNotFoundException | MemberNotFoundException ex) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
         }
     }
 
-    @PatchMapping(value = "/id")
-    public ResponseEntity<Member> patchMember(@PathVariable Long id, @RequestBody Member member) {
-        return null;
+    @PatchMapping(value = "/{id}", consumes = "application/json")
+    public ResponseEntity<?> patchMember(@PathVariable Long id, @RequestBody Member patchMember) {
+        try {
+            Member updatedMember = serviceMember.patchUpdate(patchMember, id);
+            return ResponseEntity.ok().body(updatedMember);
+        } catch (AddressNotFoundException | MemberNotFoundException ex) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+        }
     }
 }
     

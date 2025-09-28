@@ -12,5 +12,5 @@ public interface ServiceMember {
 
     Member update(Member member, Long id);
 
-    Member patchUpdate(Member member);
+    Member patchUpdate(Member patchMember, Long id);
 }
