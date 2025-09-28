@@ -1,6 +1,8 @@
 package ogenblad.example.individuellUppgift.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 @Entity
 public class Member {
@@ -9,8 +11,12 @@ public class Member {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank
+    @Size(min = 2, message = "Mininmum length for name is 2 characters.")
     private String firstName;
 
+    @NotBlank
+    @Size(min = 2, message = "Mininmum length for last name is 2 characters.")
     private String lastName;
 
     @ManyToOne(cascade = CascadeType.PERSIST)

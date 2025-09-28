@@ -35,8 +35,10 @@ public class ServiceMemberImpl implements ServiceMember {
         find(id);
         member.setId(id);
 
-        if (member.getAddress().getId() != null) {
-            serviceAddress.find(member.getAddress().getId());
+        // titta på den här, addressen får ej vara null.
+        
+        if (member.getAddress() != null && member.getAddress().getId() != null) {
+            member.setAddress(serviceAddress.find(member.getAddress().getId()));
         }
 
         return memberDao.update(member);
