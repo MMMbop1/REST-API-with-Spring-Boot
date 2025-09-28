@@ -1,10 +1,7 @@
 package ogenblad.example.individuellUppgift.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 
 @Entity
 public class Member {
@@ -14,13 +11,13 @@ public class Member {
     private Long id;
 
     @NotBlank
-    @Size(min = 2,
-            message = "Mininmum length for name is 2 characters.")
+    @Size(min = 2, max = 100,
+            message = "Minimum length for name is 2 characters and maximum 100.")
     private String firstName;
 
     @NotBlank
-    @Size(min = 2,
-            message = "Mininmum length for last name is 2 characters.")
+    @Size(min = 2, max = 100,
+            message = "Minimum length for name is 2 characters and maximum 100.")
     private String lastName;
 
     @NotNull(message = "Address can not be empty")

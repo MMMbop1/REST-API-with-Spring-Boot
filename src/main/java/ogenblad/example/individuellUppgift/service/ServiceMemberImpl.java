@@ -1,5 +1,6 @@
 package ogenblad.example.individuellUppgift.service;
 
+import ogenblad.example.individuellUppgift.dto.MemberDto;
 import ogenblad.example.individuellUppgift.entity.Address;
 import ogenblad.example.individuellUppgift.entity.Member;
 import ogenblad.example.individuellUppgift.exceptions.MemberNotFoundException;
@@ -44,33 +45,32 @@ public class ServiceMemberImpl implements ServiceMember {
     }
 
     @Override
-    public Member patchUpdate(Member patchMember, Long id) {
+    public Member patchUpdate(MemberDto patchMemberDto, Long id) {
         Member member = find(id);
 
-        if (patchMember.getFirstName() != null) {
-            member.setFirstName(patchMember.getFirstName());
+        if (patchMemberDto.firstName() != null) {
+            member.setFirstName(patchMemberDto.firstName());
         }
 
-        if (patchMember.getLastName() != null) {
-            member.setLastName(patchMember.getLastName());
+        if (patchMemberDto.lastName() != null) {
+            member.setLastName(patchMemberDto.lastName());
         }
 
-        if (patchMember.getAddress() != null && patchMember.getAddress().getId() != null) {
-            Address address = serviceAddress.find(patchMember.getAddress().getId());
+        if (patchMemberDto.address() != null && patchMemberDto.address().getId() != null) {
+            Address address = serviceAddress.find(patchMemberDto.address().getId());
             member.setAddress(address);
         }
 
-        if (patchMember.getEmail() != null) {
-            member.setEmail(patchMember.getEmail());
+        if (patchMemberDto.email() != null) {
+            member.setEmail(patchMemberDto.email());
         }
 
-        if (patchMember.getPhone() != null) {
-            member.setPhone(patchMember.getPhone());
+        if (patchMemberDto.phone() != null) {
+            member.setPhone(patchMemberDto.phone());
         }
 
-
-        if (patchMember.getDateOfBirth() != null) {
-            member.setDateOfBirth(patchMember.getDateOfBirth());
+        if (patchMemberDto.dateOfBirth() != null) {
+            member.setDateOfBirth(patchMemberDto.dateOfBirth());
         }
 
         return memberDao.update(member);

@@ -1,6 +1,7 @@
 package ogenblad.example.individuellUppgift.controller;
 
 import jakarta.validation.Valid;
+import ogenblad.example.individuellUppgift.dto.MemberDto;
 import ogenblad.example.individuellUppgift.entity.Address;
 import ogenblad.example.individuellUppgift.entity.Member;
 import ogenblad.example.individuellUppgift.exceptions.AddressNotFoundException;
@@ -53,9 +54,9 @@ public class ControllerAdmin {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<?> patchMember(@PathVariable Long id, @RequestBody Member patchMember) {
+    public ResponseEntity<?> patchMember(@PathVariable Long id,@RequestBody @Valid MemberDto patchMemberDto) {
         try {
-            Member updatedMember = serviceMember.patchUpdate(patchMember, id);
+            Member updatedMember = serviceMember.patchUpdate(patchMemberDto, id);
             return ResponseEntity.ok().body(updatedMember);
         } catch (AddressNotFoundException | MemberNotFoundException ex) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());

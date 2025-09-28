@@ -1,5 +1,6 @@
 package ogenblad.example.individuellUppgift.service;
 
+import ogenblad.example.individuellUppgift.dto.MemberDto;
 import ogenblad.example.individuellUppgift.entity.Member;
 
 import java.util.*;
@@ -12,7 +13,7 @@ public interface ServiceMember {
 
     Member update(Member member, Long id);
 
-    Member patchUpdate(Member patchMember, Long id);
+    Member patchUpdate(MemberDto patchMember, Long id);
 
     Member save(Member postMember);
 
