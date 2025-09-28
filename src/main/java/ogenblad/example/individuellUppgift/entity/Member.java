@@ -2,6 +2,8 @@ package ogenblad.example.individuellUppgift.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 @Entity
@@ -19,14 +21,24 @@ public class Member {
     @Size(min = 2, message = "Mininmum length for last name is 2 characters.")
     private String lastName;
 
+    @NotNull(message = "Address can not be null")
     @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name="address_id")
     private Address address;
 
+    @NotBlank
+    @Pattern(regexp = "\\w|.{1,50}@\\w{1,20}\\.\\w{1,10}",
+            message = "Email must match the pattern: local part (1–50 chars) + '@' + domain (1–20 chars) + top-level domain.")
     private String email;
 
+    @Size(max = 15,
+            message = "maximum size is 15 characters")
     private String phone;
 
+    @NotBlank
+    @Size(min = 12, max = 13,
+            message = "minimum length is 12 and maximum length 13")
+    @Pattern(regexp = "\\d{8}-?\\d{4}", message = "Accepted format, XXXXXXXX-XXXX")
     private String dateOfBirth;
 
     public Member() {}

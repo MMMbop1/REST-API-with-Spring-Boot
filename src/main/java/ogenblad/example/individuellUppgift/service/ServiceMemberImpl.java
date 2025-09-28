@@ -36,7 +36,6 @@ public class ServiceMemberImpl implements ServiceMember {
         member.setId(id);
 
         // titta på den här, addressen får ej vara null.
-        
         if (member.getAddress() != null && member.getAddress().getId() != null) {
             member.setAddress(serviceAddress.find(member.getAddress().getId()));
         }
