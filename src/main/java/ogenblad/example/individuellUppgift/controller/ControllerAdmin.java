@@ -2,8 +2,12 @@ package ogenblad.example.individuellUppgift.controller;
 
 import ogenblad.example.individuellUppgift.entity.Address;
 import ogenblad.example.individuellUppgift.entity.Member;
+import ogenblad.example.individuellUppgift.exceptions.AddressNotFoundException;
+import ogenblad.example.individuellUppgift.exceptions.MemberNotFoundException;
 import ogenblad.example.individuellUppgift.service.ServiceAddress;
 import ogenblad.example.individuellUppgift.service.ServiceMember;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,31 +32,27 @@ public class ControllerAdmin {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Member> getMember(@PathVariable Long id) {
-        Optional<Member> member = serviceMember.find(id);
-        if (member.isPresent()) {
-            return ResponseEntity.ok().body(member.get());
+    public ResponseEntity<?> getMember(@PathVariable Long id) {
+        try {
+            return ResponseEntity.ok().body(serviceMember.find(id));
+        } catch (MemberNotFoundException ex) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
         }
-        return ResponseEntity.notFound().build();
     }
 
     @PutMapping(value = "/{id}", consumes = "application/json")
-    public ResponseEntity<Member> putMember(@PathVariable Long id, @RequestBody Member member) {
-
-        Optional<Address> address = serviceAddress.find(member.getAddress().getId());
-
-        if (address.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
-
-        if (serviceMember.find(id).isPresent()) {
-            member.setId(id);
-            serviceMember.update(member);
+    public ResponseEntity<?> putMember(@PathVariable Long id, @RequestBody Member member) {
+        try {
+            serviceMember.update(member, id);
             return ResponseEntity.ok().body(member);
+        } catch (AddressNotFoundException | MemberNotFoundException ex) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
         }
-
-        return ResponseEntity.notFound().build();
     }
 
+    @PatchMapping(value = "/id")
+    public ResponseEntity<Member> patchMember(@PathVariable Long id, @RequestBody Member member) {
+        return null;
+    }
 }
     

@@ -1,6 +1,7 @@
 package ogenblad.example.individuellUppgift.service;
 
 import ogenblad.example.individuellUppgift.entity.Address;
+import ogenblad.example.individuellUppgift.exceptions.AddressNotFoundException;
 import ogenblad.example.individuellUppgift.repository.DaoAddress;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +16,7 @@ public class ServiceAddressImpl implements ServiceAddress {
         this.daoAddress = daoAddress;
     }
 
-    public Optional<Address> find(Long id) {
-        return daoAddress.find(id);
+    public Address find(Long id) {
+        return daoAddress.find(id).orElseThrow(() -> new AddressNotFoundException(id));
     }
 }

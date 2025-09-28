@@ -6,5 +6,5 @@ import java.util.Optional;
 
 public interface ServiceAddress {
 
-    Optional<Address> find(Long id);
+    Address find(Long id);
 }

@@ -8,7 +8,9 @@ public interface ServiceMember {
 
     List<Member> findAll();
 
-    Optional<Member> find(Long id);
+    Member find(Long id);
 
-    Member update(Member member);
+    Member update(Member member, Long id);
+
+    Member patchUpdate(Member member);
 }
