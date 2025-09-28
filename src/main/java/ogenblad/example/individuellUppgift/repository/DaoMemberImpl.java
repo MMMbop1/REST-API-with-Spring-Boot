@@ -56,4 +56,10 @@ public class DaoMemberImpl implements DaoMember {
     public Member update(Member member) {
         return entityManager.merge(member);
     }
+
+    @Override
+    @Transactional
+    public void delete(Member member) {
+        entityManager.remove(member);
+    }
 }

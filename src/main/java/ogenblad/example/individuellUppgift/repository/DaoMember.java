@@ -15,4 +15,6 @@ public interface DaoMember {
     List<Member> findAll();
 
     Member update(Member member);
+
+    void delete(Member member);
 }

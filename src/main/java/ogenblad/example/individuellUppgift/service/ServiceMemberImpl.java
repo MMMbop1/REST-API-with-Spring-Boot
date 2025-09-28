@@ -74,4 +74,14 @@ public class ServiceMemberImpl implements ServiceMember {
 
         return memberDao.update(member);
     }
+
+    @Override
+    public Member save(Member postMember) {
+        return memberDao.save(postMember);
+    }
+
+    @Override
+    public void delete(Long id) {
+        memberDao.delete(find(id));
+    }
 }

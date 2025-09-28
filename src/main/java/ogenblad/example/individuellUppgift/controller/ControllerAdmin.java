@@ -18,11 +18,9 @@ import java.util.*;
 public class ControllerAdmin {
 
     private ServiceMember serviceMember;
-    private ServiceAddress serviceAddress;
 
-    public ControllerAdmin(ServiceMember serviceMember, ServiceAddress serviceAddress) {
+    public ControllerAdmin(ServiceMember serviceMember) {
         this.serviceMember = serviceMember;
-        this.serviceAddress = serviceAddress;
     }
 
     @GetMapping
@@ -40,7 +38,7 @@ public class ControllerAdmin {
         }
     }
 
-    @PutMapping(value = "/{id}", consumes = "application/json")
+    @PutMapping("/{id}")
     public ResponseEntity<?> putMember(@PathVariable Long id, @RequestBody Member member) {
         try {
             Member updatedMember = serviceMember.update(member, id);
@@ -50,7 +48,7 @@ public class ControllerAdmin {
         }
     }
 
-    @PatchMapping(value = "/{id}", consumes = "application/json")
+    @PatchMapping("/{id}")
     public ResponseEntity<?> patchMember(@PathVariable Long id, @RequestBody Member patchMember) {
         try {
             Member updatedMember = serviceMember.patchUpdate(patchMember, id);
@@ -59,5 +57,20 @@ public class ControllerAdmin {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
         }
     }
+
+    @PostMapping
+    public ResponseEntity<Member> postMember(@RequestBody Member member) {
+        Member savedMember = serviceMember.save(member);
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedMember);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteMember(@PathVariable Long id) {
+        try {
+            serviceMember.delete(id);
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        } catch (MemberNotFoundException ex) {
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        }
+    }
 }
-    

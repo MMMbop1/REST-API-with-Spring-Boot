@@ -13,4 +13,8 @@ public interface ServiceMember {
     Member update(Member member, Long id);
 
     Member patchUpdate(Member patchMember, Long id);
+
+    Member save(Member postMember);
+
+    void delete(Long id);
 }
