@@ -14,14 +14,16 @@ public class Member {
     private Long id;
 
     @NotBlank
-    @Size(min = 2, message = "Mininmum length for name is 2 characters.")
+    @Size(min = 2,
+            message = "Mininmum length for name is 2 characters.")
     private String firstName;
 
     @NotBlank
-    @Size(min = 2, message = "Mininmum length for last name is 2 characters.")
+    @Size(min = 2,
+            message = "Mininmum length for last name is 2 characters.")
     private String lastName;
 
-    @NotNull(message = "Address can not be null")
+    @NotNull(message = "Address can not be empty")
     @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name="address_id")
     private Address address;
@@ -32,7 +34,7 @@ public class Member {
     private String email;
 
     @Size(max = 15,
-            message = "maximum size is 15 characters")
+            message = "maximum length is 15 characters")
     private String phone;
 
     @NotBlank
