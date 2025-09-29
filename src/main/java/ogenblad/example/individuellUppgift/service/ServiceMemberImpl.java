@@ -3,6 +3,7 @@ package ogenblad.example.individuellUppgift.service;
 import ogenblad.example.individuellUppgift.dto.MemberDto;
 import ogenblad.example.individuellUppgift.entity.Address;
 import ogenblad.example.individuellUppgift.entity.Member;
+import ogenblad.example.individuellUppgift.exceptions.DateOfBirthExists;
 import ogenblad.example.individuellUppgift.exceptions.MemberNotFoundException;
 import ogenblad.example.individuellUppgift.repository.DaoMember;
 import ogenblad.example.individuellUppgift.repository.DaoMemberImpl;
@@ -35,8 +36,8 @@ public class ServiceMemberImpl implements ServiceMember {
     public Member update(Member member, Long id) {
         find(id);
         member.setId(id);
+        validateIfMemberAlreadyExists(member.getDateOfBirth());
 
-        // titta på den här, addressen får ej vara null.
         if (member.getAddress() != null && member.getAddress().getId() != null) {
             member.setAddress(serviceAddress.find(member.getAddress().getId()));
         }
@@ -70,6 +71,7 @@ public class ServiceMemberImpl implements ServiceMember {
         }
 
         if (patchMemberDto.dateOfBirth() != null) {
+            validateIfMemberAlreadyExists(patchMemberDto.dateOfBirth());
             member.setDateOfBirth(patchMemberDto.dateOfBirth());
         }
 
@@ -78,11 +80,18 @@ public class ServiceMemberImpl implements ServiceMember {
 
     @Override
     public Member save(Member postMember) {
+        validateIfMemberAlreadyExists(postMember.getDateOfBirth());
         return memberDao.save(postMember);
     }
 
     @Override
     public void delete(Long id) {
         memberDao.delete(find(id));
+    }
+
+    private void validateIfMemberAlreadyExists(String dateOfBirth) {
+        memberDao.memberByDateOfBirth(dateOfBirth).ifPresent(alreadyExists -> {
+            throw new DateOfBirthExists(alreadyExists.getDateOfBirth());
+        });
     }
 }

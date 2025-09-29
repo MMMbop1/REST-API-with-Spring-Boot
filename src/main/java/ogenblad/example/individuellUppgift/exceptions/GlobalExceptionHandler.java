@@ -1,5 +1,6 @@
 package ogenblad.example.individuellUppgift.exceptions;
 
+import jakarta.validation.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -16,9 +17,15 @@ public class GlobalExceptionHandler {
         ex.getBindingResult()
                 .getFieldErrors()
                 .forEach((val) ->
-                        errors.append(val.getDefaultMessage() + "\n")
+                        errors.append(val.getDefaultMessage()).append("\n")
                 );
 
         return errors.toString();
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(DateOfBirthExists.class)
+    public String dateOfBirthAlreadyExists(DateOfBirthExists ex) {
+        return ex.getMessage();
     }
 }

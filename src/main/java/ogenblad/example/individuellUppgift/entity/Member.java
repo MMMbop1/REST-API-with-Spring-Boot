@@ -35,9 +35,9 @@ public class Member {
     private String phone;
 
     @NotBlank
-    @Size(min = 12, max = 13,
-            message = "minimum length is 12 and maximum length 13")
-    @Pattern(regexp = "\\d{8}-?\\d{4}", message = "Accepted format, XXXXXXXX-XXXX")
+    @Size(min = 12, max = 12,
+            message = "must be 12 characters length in format YYYYMMDDXXXX")
+    @Pattern(regexp = "\\d{12}", message = "Accepted format for dateOfBirth YYYYMMDDXXXX")
     private String dateOfBirth;
 
     public Member() {}

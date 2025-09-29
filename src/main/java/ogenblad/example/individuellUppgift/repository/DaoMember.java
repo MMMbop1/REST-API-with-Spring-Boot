@@ -17,4 +17,6 @@ public interface DaoMember {
     Member update(Member member);
 
     void delete(Member member);
+
+    Optional<Member> memberByDateOfBirth(String dateOfBirth);
 }

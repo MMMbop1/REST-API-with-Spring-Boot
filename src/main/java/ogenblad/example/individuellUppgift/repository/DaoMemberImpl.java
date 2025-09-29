@@ -1,6 +1,7 @@
 package ogenblad.example.individuellUppgift.repository;
 
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.NoResultException;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
 import jakarta.transaction.Transactional;
@@ -61,5 +62,17 @@ public class DaoMemberImpl implements DaoMember {
     @Transactional
     public void delete(Member member) {
         entityManager.remove(member);
+    }
+
+    @Override
+    public Optional<Member> memberByDateOfBirth(String dateOfBirth) {
+        TypedQuery<Member> preparedQuery = entityManager.createQuery("SELECT m FROM Member m WHERE m.dateOfBirth = :dateOfBirth", Member.class);
+        preparedQuery.setParameter("dateOfBirth", dateOfBirth);
+
+        try {
+            return Optional.of(preparedQuery.getSingleResult());
+        } catch (NoResultException e) {
+            return Optional.empty();
+        }
     }
 }

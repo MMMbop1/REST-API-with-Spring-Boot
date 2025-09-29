@@ -2,27 +2,21 @@ package ogenblad.example.individuellUppgift.controller;
 
 import jakarta.validation.Valid;
 import ogenblad.example.individuellUppgift.dto.MemberDto;
-import ogenblad.example.individuellUppgift.entity.Address;
 import ogenblad.example.individuellUppgift.entity.Member;
 import ogenblad.example.individuellUppgift.exceptions.AddressNotFoundException;
 import ogenblad.example.individuellUppgift.exceptions.MemberNotFoundException;
-import ogenblad.example.individuellUppgift.service.ServiceAddress;
 import ogenblad.example.individuellUppgift.service.ServiceMember;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/admin/members")
 public class ControllerAdmin {
 
-    private ServiceMember serviceMember;
+    private final ServiceMember serviceMember;
 
     public ControllerAdmin(ServiceMember serviceMember) {
         this.serviceMember = serviceMember;
@@ -65,7 +59,6 @@ public class ControllerAdmin {
 
     @PostMapping
     public ResponseEntity<?> postMember(@RequestBody @Valid Member member) {
-
         Member savedMember = serviceMember.save(member);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedMember);
     }
