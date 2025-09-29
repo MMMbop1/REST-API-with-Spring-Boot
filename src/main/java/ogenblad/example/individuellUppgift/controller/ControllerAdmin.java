@@ -3,13 +3,13 @@ package ogenblad.example.individuellUppgift.controller;
 import jakarta.validation.Valid;
 import ogenblad.example.individuellUppgift.dto.MemberDto;
 import ogenblad.example.individuellUppgift.entity.Member;
-import ogenblad.example.individuellUppgift.exceptions.AddressNotFoundException;
-import ogenblad.example.individuellUppgift.exceptions.MemberNotFoundException;
 import ogenblad.example.individuellUppgift.service.ServiceMember;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.*;
 
 @RestController
@@ -24,8 +24,7 @@ public class ControllerAdmin {
 
     @GetMapping
     public ResponseEntity<List<Member>> getMembers() {
-        List<Member> members = serviceMember.findAll();
-        return ResponseEntity.ok().body(members);
+        return ResponseEntity.ok().body(serviceMember.findAll());
     }
 
     @GetMapping("/{id}")
@@ -35,25 +34,27 @@ public class ControllerAdmin {
 
     @PutMapping("/{id}")
     public ResponseEntity<?> putMember(@PathVariable Long id, @RequestBody Member member) {
-        Member updatedMember = serviceMember.update(member, id);
-        return ResponseEntity.ok().body(updatedMember);
+        return ResponseEntity.ok().body(serviceMember.update(member, id));
     }
 
     @PatchMapping("/{id}")
     public ResponseEntity<?> patchMember(@PathVariable Long id,@RequestBody @Valid MemberDto patchMemberDto) {
-        Member updatedMember = serviceMember.patchUpdate(patchMemberDto, id);
-        return ResponseEntity.ok().body(updatedMember);
+        return ResponseEntity
+                .ok()
+                .body(serviceMember.patchUpdate(patchMemberDto, id));
     }
 
     @PostMapping
-    public ResponseEntity<?> postMember(@RequestBody @Valid Member member) {
+    public ResponseEntity<?> postMember(@RequestBody @Valid Member member) throws URISyntaxException {
         Member savedMember = serviceMember.save(member);
-        return ResponseEntity.status(HttpStatus.CREATED).body(savedMember);
+        return ResponseEntity
+                .created(new URI("/admin/members/" + member.getId()))
+                .body(savedMember);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteMember(@PathVariable Long id) {
         serviceMember.delete(id);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        return ResponseEntity.noContent().build();
     }
 }
