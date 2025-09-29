@@ -2,7 +2,6 @@ package ogenblad.example.individuellUppgift.repository;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
-import jakarta.persistence.TypedQuery;
 import ogenblad.example.individuellUppgift.entity.Address;
 import org.springframework.stereotype.Repository;
 

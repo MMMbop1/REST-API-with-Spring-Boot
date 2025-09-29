@@ -30,31 +30,19 @@ public class ControllerAdmin {
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getMember(@PathVariable Long id) {
-        try {
-            return ResponseEntity.ok().body(serviceMember.find(id));
-        } catch (MemberNotFoundException ex) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
-        }
+        return ResponseEntity.ok().body(serviceMember.find(id));
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<?> putMember(@PathVariable Long id, @RequestBody Member member) {
-        try {
-            Member updatedMember = serviceMember.update(member, id);
-            return ResponseEntity.ok().body(updatedMember);
-        } catch (AddressNotFoundException | MemberNotFoundException ex) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
-        }
+        Member updatedMember = serviceMember.update(member, id);
+        return ResponseEntity.ok().body(updatedMember);
     }
 
     @PatchMapping("/{id}")
     public ResponseEntity<?> patchMember(@PathVariable Long id,@RequestBody @Valid MemberDto patchMemberDto) {
-        try {
-            Member updatedMember = serviceMember.patchUpdate(patchMemberDto, id);
-            return ResponseEntity.ok().body(updatedMember);
-        } catch (AddressNotFoundException | MemberNotFoundException ex) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
-        }
+        Member updatedMember = serviceMember.patchUpdate(patchMemberDto, id);
+        return ResponseEntity.ok().body(updatedMember);
     }
 
     @PostMapping
@@ -65,11 +53,7 @@ public class ControllerAdmin {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteMember(@PathVariable Long id) {
-        try {
-            serviceMember.delete(id);
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-        } catch (MemberNotFoundException ex) {
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-        }
+        serviceMember.delete(id);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }

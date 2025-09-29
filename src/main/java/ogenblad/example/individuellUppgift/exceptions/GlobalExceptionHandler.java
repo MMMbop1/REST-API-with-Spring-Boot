@@ -12,7 +12,7 @@ public class GlobalExceptionHandler {
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public String validationExceptions(MethodArgumentNotValidException ex) {
+    public String validationErrors(MethodArgumentNotValidException ex) {
         StringBuilder errors = new StringBuilder();
         ex.getBindingResult()
                 .getFieldErrors()
@@ -26,6 +26,18 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(DateOfBirthExists.class)
     public String dateOfBirthAlreadyExists(DateOfBirthExists ex) {
+        return ex.getMessage();
+    }
+
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @ExceptionHandler(AddressNotFoundException.class)
+    public String addressDoesNotExist(AddressNotFoundException ex) {
+        return ex.getMessage();
+    }
+
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @ExceptionHandler(MemberNotFoundException.class)
+    public String memberDoesNotExist(MemberNotFoundException ex) {
         return ex.getMessage();
     }
 }

@@ -6,7 +6,6 @@ import ogenblad.example.individuellUppgift.entity.Member;
 import ogenblad.example.individuellUppgift.exceptions.DateOfBirthExists;
 import ogenblad.example.individuellUppgift.exceptions.MemberNotFoundException;
 import ogenblad.example.individuellUppgift.repository.DaoMember;
-import ogenblad.example.individuellUppgift.repository.DaoMemberImpl;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
