@@ -5,12 +5,10 @@ import ogenblad.example.individuellUppgift.dto.MemberDto;
 import ogenblad.example.individuellUppgift.dto.PatchMemberDto;
 import ogenblad.example.individuellUppgift.entity.Address;
 import ogenblad.example.individuellUppgift.entity.Member;
-import ogenblad.example.individuellUppgift.exceptions.DateOfBirthExists;
 import ogenblad.example.individuellUppgift.exceptions.MemberNotFoundException;
 import ogenblad.example.individuellUppgift.mapper.Mapper;
 import ogenblad.example.individuellUppgift.repository.DaoMember;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 
 import java.util.ArrayList;
 import java.util.List;

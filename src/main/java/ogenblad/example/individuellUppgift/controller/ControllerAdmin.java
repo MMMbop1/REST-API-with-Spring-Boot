@@ -45,11 +45,9 @@ public class ControllerAdmin {
     }
 
     @PostMapping
-    public ResponseEntity<Member> postMember(@RequestBody @Valid Member member) throws URISyntaxException {
+    public ResponseEntity<Member> postMember(@RequestBody @Valid Member member) {
         Member savedMember = serviceMember.save(member);
-        return ResponseEntity
-                .created(new URI("/admin/members/" + member.getId()))
-                .body(savedMember);
+        return ResponseEntity.ok().body(savedMember);
     }
 
     @DeleteMapping("/{id}")

@@ -2,6 +2,11 @@ package ogenblad.example.individuellUppgift.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
+import ogenblad.example.individuellUppgift.security.Role;
+
+import java.util.HashSet;
+import java.util.Set;
+
 
 @Entity
 public class Member {
