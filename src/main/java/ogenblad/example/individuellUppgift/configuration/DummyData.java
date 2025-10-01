@@ -22,7 +22,7 @@ public class DummyData {
             Address address3 = new Address("Ällingavägen 5", "12312", "Lund");
             Address address4 = new Address("Rullstensgatan 12", "17254", "Umeå");
 
-            Member member1 = new Member("Ludvig", "Ogenblad", address1, "ludvigkaskogenblad@gmail.com", "0730251405", "199106051111");
+            Member member1 = new Member("Ludvig", "Ogenblad", address1, "ludvigkaskogenblad@gmail.com", "0730251405", "199107081111");
             Member member2 = new Member("Eymi", "Chikito", address1, "chikito@gmail.com", "0730251422", "199106052222");
             Member member3 = new Member("Ture", "Turesson", address2, "turesson.ture@hotmail.com", "072737271", "200104040123");
             Member member4 = new Member("Sven", "Jansson", address3, "Janne.sven@hotmail.com", "071231231", "199202018101");

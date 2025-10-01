@@ -1,6 +1,6 @@
 package ogenblad.example.individuellUppgift.exceptions;
 
-import jakarta.validation.ConstraintViolationException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -29,15 +29,27 @@ public class GlobalExceptionHandler {
         return ex.getMessage();
     }
 
-    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(AddressNotFoundException.class)
     public String addressDoesNotExist(AddressNotFoundException ex) {
         return ex.getMessage();
     }
 
-    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(MemberNotFoundException.class)
     public String memberDoesNotExist(MemberNotFoundException ex) {
         return ex.getMessage();
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(IllegalArgumentException.class)
+    public String illegalArgument(IllegalArgumentException ex) {
+        return ex.getMessage();
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public String dateOfBirthAlreadyExists(DataIntegrityViolationException ex) {
+        return "Make sure to send a proper unique date of birth";
     }
 }

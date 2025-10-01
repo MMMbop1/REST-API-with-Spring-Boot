@@ -1,37 +1,25 @@
 package ogenblad.example.individuellUppgift.dto;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import ogenblad.example.individuellUppgift.entity.Address;
 
-public record MemberDto(
-        @NotBlank
+public record DietMemberDto(
         @Size(min = 2, max = 100,
                 message = "Minimum length for name is 2 characters and maximum 100.")
         String firstName,
 
-        @NotBlank
         @Size(min = 2, max = 100,
                 message = "Minimum length for name is 2 characters and maximum 100.")
         String lastName,
 
-        @NotNull(message = "Address Id can not be empty")
-        Long address,
+        Address address,
 
-        @NotBlank
         @Pattern(regexp = "\\w|.{1,50}@\\w{1,20}\\.\\w{1,10}",
                 message = "Email must match the pattern: local part (1–50 chars) + '@' + domain (1–20 chars) + top-level domain.")
         String email,
 
         @Size(max = 15,
                 message = "maximum length is 15 characters")
-        String phone,
-
-        @Size(min = 12, max = 12,
-                message = "must be 12 characters length in format YYYYMMDDXXXX")
-        @Pattern(regexp = "\\d{12}", message = "Accepted format for dateOfBirth YYYYMMDDXXXX")
-        String dateOfBirth
+        String phone
 ) {}

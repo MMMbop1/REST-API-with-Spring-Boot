@@ -34,10 +34,10 @@ public class Member {
             message = "maximum length is 15 characters")
     private String phone;
 
-    @NotBlank
     @Size(min = 12, max = 12,
             message = "must be 12 characters length in format YYYYMMDDXXXX")
     @Pattern(regexp = "\\d{12}", message = "Accepted format for dateOfBirth YYYYMMDDXXXX")
+    @Column(unique = true, nullable = false)
     private String dateOfBirth;
 
     public Member() {}
