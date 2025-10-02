@@ -2,6 +2,7 @@ package ogenblad.example.individuellUppgift.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
+import ogenblad.example.individuellUppgift.security.AppUser;
 import ogenblad.example.individuellUppgift.security.Role;
 
 import java.util.HashSet;
@@ -45,6 +46,10 @@ public class Member {
     @Column(unique = true, nullable = false)
     private String dateOfBirth;
 
+    @OneToOne(mappedBy = "member", cascade = CascadeType.ALL)
+    private AppUser appUser;
+
+    /** protected? */
     public Member() {}
 
     public Member(String firstName, String lastName, Address address, String email, String phone, String dateOfBirth) {
@@ -60,6 +65,7 @@ public class Member {
         return id;
     }
 
+    /** private? */
     public void setId(Long id) {
         this.id = id;
     }
@@ -110,5 +116,13 @@ public class Member {
 
     public void setDateOfBirth(String dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
+    }
+
+    public AppUser getAppUser() {
+        return appUser;
+    }
+
+    public void setAppUser(AppUser appUser) {
+        this.appUser = appUser;
     }
 }

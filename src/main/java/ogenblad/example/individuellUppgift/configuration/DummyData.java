@@ -3,9 +3,12 @@ package ogenblad.example.individuellUppgift.configuration;
 import ogenblad.example.individuellUppgift.entity.Address;
 import ogenblad.example.individuellUppgift.entity.Member;
 import ogenblad.example.individuellUppgift.repository.DaoMember;
+import ogenblad.example.individuellUppgift.security.AppUser;
+import ogenblad.example.individuellUppgift.security.Role;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.*;
 
@@ -13,7 +16,7 @@ import java.util.*;
 public class DummyData {
 
     @Bean
-    public CommandLineRunner initLoad(DaoMember repo) {
+    public CommandLineRunner initLoad(DaoMember repo, PasswordEncoder passwordEncoder) {
         return args -> {
             List<Member> members = new ArrayList<>();
 
@@ -27,6 +30,12 @@ public class DummyData {
             Member member3 = new Member("Ture", "Turesson", address2, "turesson.ture@hotmail.com", "072737271", "200104040123");
             Member member4 = new Member("Sven", "Jansson", address3, "Janne.sven@hotmail.com", "071231231", "199202018101");
             Member member5 = new Member("Elin", "Benjaminsson", address4, "turesson.ture@hotmail.com", "072737271", "197202040151");
+
+            TreeSet<Role> authorities = new TreeSet<>();
+            authorities.add(Role.ADMIN);
+
+            AppUser appUser = new AppUser("admin", passwordEncoder.encode("admin"), authorities, member1);
+            member1.setAppUser(appUser);
 
             members.add(member1);
             members.add(member2);
