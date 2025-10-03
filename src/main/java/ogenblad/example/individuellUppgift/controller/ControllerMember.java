@@ -25,7 +25,7 @@ public class ControllerMember {
         return ResponseEntity.ok().body(serviceMember.findAllDietMembers());
     }
 
-    @PutMapping("/mypages/members/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<Member> putMember(@PathVariable Long id, @RequestBody @Valid RequestMemberDto member) {
         return ResponseEntity.ok().body(serviceMember.update(member, id));
     }
