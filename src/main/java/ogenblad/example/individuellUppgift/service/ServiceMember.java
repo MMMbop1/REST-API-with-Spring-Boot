@@ -22,5 +22,7 @@ public interface ServiceMember {
 
     Member save(Member postMember);
 
+    List<Member> saveAll(List<Member> members);
+
     void delete(Long id);
 }

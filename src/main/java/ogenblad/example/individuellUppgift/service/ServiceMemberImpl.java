@@ -109,6 +109,12 @@ public class ServiceMemberImpl implements ServiceMember {
 
     @Override
     @Transactional
+    public List<Member> saveAll(List<Member> members) {
+        return memberDao.saveAll(members);
+    }
+
+    @Override
+    @Transactional
     public void delete(Long id) {
         Member member = memberDao.find(id).orElseThrow(() -> new MemberNotFoundException(id));
         memberDao.delete(member);

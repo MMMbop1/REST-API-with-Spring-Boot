@@ -21,7 +21,7 @@ public class AppUser {
 
     @ElementCollection(fetch = FetchType.EAGER)
     @Enumerated(EnumType.STRING)
-    private Set<Role> roles;
+    private Set<Role> roles = new TreeSet<>();
 
     @OneToOne
     @JoinColumn(name = "member_id")
@@ -40,6 +40,10 @@ public class AppUser {
         return getRoles().stream()
                 .map(role -> new SimpleGrantedAuthority("ROLE_" + role.name()))
                 .toList();
+    }
+
+    public void addRole(Role role) {
+        roles.add(role);
     }
 
     public String getUsername() {
