@@ -1,13 +1,14 @@
 package ogenblad.example.individuellUppgift.dto;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import ogenblad.example.individuellUppgift.entity.Address;
 
-public record MemberDto(
+public record ResponseMemberDto (
+        Long id,
+
         @NotBlank
         @Size(min = 2, max = 100,
                 message = "Minimum length for name is 2 characters and maximum 100.")
@@ -19,7 +20,7 @@ public record MemberDto(
         String lastName,
 
         @NotNull(message = "Address Id can not be empty")
-        Long address,
+        Address address,
 
         @NotBlank
         @Pattern(regexp = "\\w|.{1,50}@\\w{1,20}\\.\\w{1,10}",

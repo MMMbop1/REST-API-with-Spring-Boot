@@ -1,15 +1,14 @@
 package ogenblad.example.individuellUppgift.controller;
 
 import jakarta.validation.Valid;
-import ogenblad.example.individuellUppgift.dto.MemberDto;
+import ogenblad.example.individuellUppgift.dto.RequestMemberDto;
 import ogenblad.example.individuellUppgift.dto.PatchMemberDto;
+import ogenblad.example.individuellUppgift.dto.ResponseMemberDto;
 import ogenblad.example.individuellUppgift.entity.Member;
 import ogenblad.example.individuellUppgift.service.ServiceMember;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.*;
 
 @RestController
@@ -23,17 +22,17 @@ public class ControllerAdmin {
     }
 
     @GetMapping
-    public ResponseEntity<List<Member>> getMembers() {
+    public ResponseEntity<List<ResponseMemberDto>> getMembers() {
         return ResponseEntity.ok().body(serviceMember.findAll());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Member> getMember(@PathVariable Long id) {
+    public ResponseEntity<ResponseMemberDto> getMember(@PathVariable Long id) {
         return ResponseEntity.ok().body(serviceMember.find(id));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Member> putMember(@PathVariable Long id, @RequestBody @Valid MemberDto member) {
+    public ResponseEntity<Member> putMember(@PathVariable Long id, @RequestBody @Valid RequestMemberDto member) {
         return ResponseEntity.ok().body(serviceMember.update(member, id));
     }
 

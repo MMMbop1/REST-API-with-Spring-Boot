@@ -2,7 +2,7 @@ package ogenblad.example.individuellUppgift.controller;
 
 import jakarta.validation.Valid;
 import ogenblad.example.individuellUppgift.dto.DietMemberDto;
-import ogenblad.example.individuellUppgift.dto.MemberDto;
+import ogenblad.example.individuellUppgift.dto.RequestMemberDto;
 import ogenblad.example.individuellUppgift.entity.Member;
 import ogenblad.example.individuellUppgift.service.ServiceMember;
 import org.springframework.http.ResponseEntity;
@@ -26,7 +26,7 @@ public class ControllerMember {
     }
 
     @PutMapping("/mypages/members/{id}")
-    public ResponseEntity<Member> putMember(@PathVariable Long id, @RequestBody @Valid MemberDto member) {
+    public ResponseEntity<Member> putMember(@PathVariable Long id, @RequestBody @Valid RequestMemberDto member) {
         return ResponseEntity.ok().body(serviceMember.update(member, id));
     }
 }

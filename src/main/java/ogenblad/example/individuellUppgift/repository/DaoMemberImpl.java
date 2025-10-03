@@ -26,14 +26,12 @@ public class DaoMemberImpl implements DaoMember {
     }
 
     @Override
-    @Transactional
     public Member save(Member member) {
         entityManager.persist(member);
         return member;
     }
 
     @Override
-    @Transactional
     public List<Member> saveAll(List<Member> members) {
         for (Member member : members) {
             entityManager.persist(member);
@@ -53,13 +51,11 @@ public class DaoMemberImpl implements DaoMember {
     }
 
     @Override
-    @Transactional
     public Member update(Member member) {
         return entityManager.merge(member);
     }
 
     @Override
-    @Transactional
     public void delete(Member member) {
         entityManager.remove(member);
     }

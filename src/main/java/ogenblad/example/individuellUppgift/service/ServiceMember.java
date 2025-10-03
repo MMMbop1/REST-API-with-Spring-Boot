@@ -1,21 +1,22 @@
 package ogenblad.example.individuellUppgift.service;
 
 import ogenblad.example.individuellUppgift.dto.DietMemberDto;
-import ogenblad.example.individuellUppgift.dto.MemberDto;
+import ogenblad.example.individuellUppgift.dto.RequestMemberDto;
 import ogenblad.example.individuellUppgift.dto.PatchMemberDto;
+import ogenblad.example.individuellUppgift.dto.ResponseMemberDto;
 import ogenblad.example.individuellUppgift.entity.Member;
 
 import java.util.*;
 
 public interface ServiceMember {
 
-    List<Member> findAll();
+    List<ResponseMemberDto> findAll();
 
     List<DietMemberDto> findAllDietMembers();
 
-    Member find(Long id);
+    ResponseMemberDto find(Long id);
 
-    Member update(MemberDto member, Long id);
+    Member update(RequestMemberDto member, Long id);
 
     Member patchUpdate(PatchMemberDto patchMember, Long id);
 

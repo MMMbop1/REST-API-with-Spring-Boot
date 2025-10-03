@@ -1,8 +1,10 @@
 package ogenblad.example.individuellUppgift.service;
 
+import jakarta.transaction.Transactional;
 import ogenblad.example.individuellUppgift.dto.DietMemberDto;
-import ogenblad.example.individuellUppgift.dto.MemberDto;
+import ogenblad.example.individuellUppgift.dto.RequestMemberDto;
 import ogenblad.example.individuellUppgift.dto.PatchMemberDto;
+import ogenblad.example.individuellUppgift.dto.ResponseMemberDto;
 import ogenblad.example.individuellUppgift.entity.Address;
 import ogenblad.example.individuellUppgift.entity.Member;
 import ogenblad.example.individuellUppgift.exceptions.MemberNotFoundException;
@@ -27,13 +29,19 @@ public class ServiceMemberImpl implements ServiceMember {
     }
 
     @Override
-    public Member find(Long id) {
-        return memberDao.find(id).orElseThrow(() -> new MemberNotFoundException(id));
+    public ResponseMemberDto find(Long id) {
+        Member member = memberDao.find(id).orElseThrow(() -> new MemberNotFoundException(id));
+        ResponseMemberDto responseMemberDto = mapper.toResponseMemberDto(member);
+
+        return responseMemberDto;
     }
 
     @Override
-    public List<Member> findAll() {
-        return memberDao.findAll();
+    public List<ResponseMemberDto> findAll() {
+        List<ResponseMemberDto> memberDtos = new ArrayList<>();
+        memberDao.findAll().forEach((member) -> memberDtos.add(mapper.toResponseMemberDto(member)));
+
+        return memberDtos;
     }
 
     @Override
@@ -48,20 +56,22 @@ public class ServiceMemberImpl implements ServiceMember {
     }
 
     @Override
-    public Member update(MemberDto memberDto, Long id) {
-        Member member = find(id);
+    @Transactional
+    public Member update(RequestMemberDto requestMemberDto, Long id) {
+        Member member = memberDao.find(id).orElseThrow(() -> new MemberNotFoundException(id));
 
-        Address address = serviceAddress.find(memberDto.address());
+        Address address = serviceAddress.find(requestMemberDto.address());
 
-        Member updateMember = mapper.memberDtoToMember(memberDto, address);
+        Member updateMember = mapper.memberDtoToMember(requestMemberDto, address);
         updateMember.setId(id);
 
         return memberDao.update(updateMember);
     }
 
     @Override
+    @Transactional
     public Member patchUpdate(PatchMemberDto patchMemberDto, Long id) {
-        Member member = find(id);
+        Member member = memberDao.find(id).orElseThrow(() -> new MemberNotFoundException(id));
 
         if (patchMemberDto.firstName() != null) {
             member.setFirstName(patchMemberDto.firstName());
@@ -92,12 +102,15 @@ public class ServiceMemberImpl implements ServiceMember {
     }
 
     @Override
+    @Transactional
     public Member save(Member postMember) {
         return memberDao.save(postMember);
     }
 
     @Override
+    @Transactional
     public void delete(Long id) {
-        memberDao.delete(find(id));
+        Member member = memberDao.find(id).orElseThrow(() -> new MemberNotFoundException(id));
+        memberDao.delete(member);
     }
 }

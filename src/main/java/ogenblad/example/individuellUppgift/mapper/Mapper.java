@@ -1,7 +1,7 @@
 package ogenblad.example.individuellUppgift.mapper;
 
-import jakarta.validation.Valid;
-import ogenblad.example.individuellUppgift.dto.MemberDto;
+import ogenblad.example.individuellUppgift.dto.RequestMemberDto;
+import ogenblad.example.individuellUppgift.dto.ResponseMemberDto;
 import ogenblad.example.individuellUppgift.entity.Address;
 import ogenblad.example.individuellUppgift.entity.Member;
 import ogenblad.example.individuellUppgift.dto.DietMemberDto;
@@ -17,7 +17,11 @@ public class Mapper {
         return new DietMemberDto(member.getFirstName(), member.getLastName(), member.getAddress(), member.getEmail(), member.getPhone());
     }
 
-    public Member memberDtoToMember(MemberDto memberDto, Address address) {
-        return new Member(memberDto.firstName(), memberDto.lastName(), address, memberDto.email(), memberDto.phone(), memberDto.dateOfBirth());
+    public Member memberDtoToMember(RequestMemberDto requestMemberDto, Address address) {
+        return new Member(requestMemberDto.firstName(), requestMemberDto.lastName(), address, requestMemberDto.email(), requestMemberDto.phone(), requestMemberDto.dateOfBirth());
+    }
+
+    public ResponseMemberDto toResponseMemberDto(Member member) {
+        return new ResponseMemberDto(member.getId(), member.getFirstName(), member.getLastName(), member.getAddress(), member.getEmail(), member.getPhone(), member.getDateOfBirth());
     }
 }
