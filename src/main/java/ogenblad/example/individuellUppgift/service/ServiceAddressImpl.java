@@ -5,8 +5,6 @@ import ogenblad.example.individuellUppgift.exceptions.AddressNotFoundException;
 import ogenblad.example.individuellUppgift.repository.DaoAddress;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-
 @Service
 public class ServiceAddressImpl implements ServiceAddress {
 

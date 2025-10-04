@@ -13,11 +13,9 @@ import ogenblad.example.individuellUppgift.mapper.Mapper;
 import ogenblad.example.individuellUppgift.repository.DaoMember;
 import ogenblad.example.individuellUppgift.repository.DaoUser;
 import ogenblad.example.individuellUppgift.security.AppUser;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;

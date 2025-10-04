@@ -4,7 +4,6 @@ import jakarta.validation.Valid;
 import ogenblad.example.individuellUppgift.dto.RequestMemberDto;
 import ogenblad.example.individuellUppgift.dto.PatchMemberDto;
 import ogenblad.example.individuellUppgift.dto.ResponseMemberDto;
-import ogenblad.example.individuellUppgift.entity.Member;
 import ogenblad.example.individuellUppgift.service.ServiceMember;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;

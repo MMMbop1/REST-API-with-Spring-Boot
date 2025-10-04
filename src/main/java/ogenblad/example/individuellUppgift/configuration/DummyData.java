@@ -2,7 +2,6 @@ package ogenblad.example.individuellUppgift.configuration;
 
 import ogenblad.example.individuellUppgift.entity.Address;
 import ogenblad.example.individuellUppgift.entity.Member;
-import ogenblad.example.individuellUppgift.repository.DaoMember;
 import ogenblad.example.individuellUppgift.security.AppUser;
 import ogenblad.example.individuellUppgift.security.Role;
 import ogenblad.example.individuellUppgift.service.ServiceMember;
