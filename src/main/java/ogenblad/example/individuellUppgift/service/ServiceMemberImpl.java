@@ -12,6 +12,7 @@ import ogenblad.example.individuellUppgift.mapper.Mapper;
 import ogenblad.example.individuellUppgift.repository.DaoMember;
 import ogenblad.example.individuellUppgift.repository.DaoUser;
 import ogenblad.example.individuellUppgift.security.AppUser;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;
@@ -70,7 +71,7 @@ public class ServiceMemberImpl implements ServiceMember {
 
     @Override
     @Transactional
-    public Member update(RequestMemberDto requestMemberDto, Long id, Principal principal) {
+    public ResponseMemberDto update(RequestMemberDto requestMemberDto, Long id, Principal principal) {
         Member member = memberDao.find(id).orElseThrow(() -> new MemberNotFoundException(id));
 
         AppUser appUser = userDao.findByUsername(principal.getName()).orElseThrow();
@@ -83,7 +84,7 @@ public class ServiceMemberImpl implements ServiceMember {
         Member updateMember = Mapper.memberDtoToMember(requestMemberDto, address);
         updateMember.setId(id);
 
-        return memberDao.update(updateMember);
+        return Mapper.toResponseMemberDto(memberDao.update(updateMember));
     }
 
     @Override

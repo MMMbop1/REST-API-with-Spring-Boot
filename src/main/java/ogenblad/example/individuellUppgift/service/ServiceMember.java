@@ -19,7 +19,7 @@ public interface ServiceMember {
 
     ResponseMemberDto update(RequestMemberDto member, Long id);
 
-    Member update(RequestMemberDto member, Long id, Principal principal);
+    ResponseMemberDto update(RequestMemberDto member, Long id, Principal principal);
 
     ResponseMemberDto patchUpdate(PatchMemberDto patchMember, Long id);
 
