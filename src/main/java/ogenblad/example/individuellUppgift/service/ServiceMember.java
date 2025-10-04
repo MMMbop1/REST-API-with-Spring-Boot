@@ -6,6 +6,7 @@ import ogenblad.example.individuellUppgift.dto.PatchMemberDto;
 import ogenblad.example.individuellUppgift.dto.ResponseMemberDto;
 import ogenblad.example.individuellUppgift.entity.Member;
 
+import java.security.Principal;
 import java.util.*;
 
 public interface ServiceMember {
@@ -17,6 +18,8 @@ public interface ServiceMember {
     ResponseMemberDto find(Long id);
 
     Member update(RequestMemberDto member, Long id);
+
+    Member update(RequestMemberDto member, Long id, Principal principal);
 
     Member patchUpdate(PatchMemberDto patchMember, Long id);
 

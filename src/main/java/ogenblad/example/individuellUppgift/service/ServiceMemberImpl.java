@@ -10,8 +10,11 @@ import ogenblad.example.individuellUppgift.entity.Member;
 import ogenblad.example.individuellUppgift.exceptions.MemberNotFoundException;
 import ogenblad.example.individuellUppgift.mapper.Mapper;
 import ogenblad.example.individuellUppgift.repository.DaoMember;
+import ogenblad.example.individuellUppgift.repository.DaoUser;
+import ogenblad.example.individuellUppgift.security.AppUser;
 import org.springframework.stereotype.Service;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,12 +23,14 @@ public class ServiceMemberImpl implements ServiceMember {
 
     private final DaoMember memberDao;
     private final ServiceAddress serviceAddress;
+    private final DaoUser userDao;
     private final Mapper mapper;
 
-    public ServiceMemberImpl(DaoMember memberDao, ServiceAddress serviceAddress, Mapper mapper) {
+    public ServiceMemberImpl(DaoMember memberDao, ServiceAddress serviceAddress, Mapper mapper, DaoUser userDao) {
        this.memberDao = memberDao;
        this.serviceAddress = serviceAddress;
        this.mapper = mapper;
+       this.userDao = userDao;
     }
 
     @Override
@@ -60,10 +65,25 @@ public class ServiceMemberImpl implements ServiceMember {
     public Member update(RequestMemberDto requestMemberDto, Long id) {
         Member member = memberDao.find(id).orElseThrow(() -> new MemberNotFoundException(id));
 
-
-
         Address address = serviceAddress.find(requestMemberDto.address());
 
+        Member updateMember = mapper.memberDtoToMember(requestMemberDto, address);
+        updateMember.setId(id);
+
+        return memberDao.update(updateMember);
+    }
+
+    @Override
+    @Transactional
+    public Member update(RequestMemberDto requestMemberDto, Long id, Principal principal) {
+        Member member = memberDao.find(id).orElseThrow(() -> new MemberNotFoundException(id));
+
+        AppUser appUser = userDao.findByUsername(principal.getName()).orElseThrow();
+        if (!member.getId().equals(appUser.getMember().getId())) {
+            throw new IllegalArgumentException("You are not allowed to update other users");
+        }
+
+        Address address = serviceAddress.find(requestMemberDto.address());
         Member updateMember = mapper.memberDtoToMember(requestMemberDto, address);
         updateMember.setId(id);
 

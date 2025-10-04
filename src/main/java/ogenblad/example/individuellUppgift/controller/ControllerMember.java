@@ -6,6 +6,7 @@ import ogenblad.example.individuellUppgift.dto.RequestMemberDto;
 import ogenblad.example.individuellUppgift.entity.Member;
 import ogenblad.example.individuellUppgift.service.ServiceMember;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,7 +27,9 @@ public class ControllerMember {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Member> putMember(@PathVariable Long id, @RequestBody @Valid RequestMemberDto member) {
-        return ResponseEntity.ok().body(serviceMember.update(member, id));
+    public ResponseEntity<Member> putMember(@PathVariable Long id,
+                                            @RequestBody @Valid RequestMemberDto member,
+                                            Authentication authentication) {
+        return ResponseEntity.ok().body(serviceMember.update(member, id, authentication));
     }
 }
