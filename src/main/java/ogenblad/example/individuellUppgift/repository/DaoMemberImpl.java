@@ -17,11 +17,8 @@ public class DaoMemberImpl implements DaoMember {
     @PersistenceContext
     private final EntityManager entityManager;
 
-    private final DaoAddress daoAddress;
-
-    public DaoMemberImpl(EntityManager entityManager, DaoAddress daoAddress) {
+    public DaoMemberImpl(EntityManager entityManager) {
         this.entityManager = entityManager;
-        this.daoAddress = daoAddress;
     }
 
     @Override
