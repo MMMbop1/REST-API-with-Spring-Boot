@@ -133,7 +133,7 @@ public class ServiceMemberImpl implements ServiceMember {
     @Transactional
     public ResponseMemberDto save(RequestMemberDto requestMemberDto) {
         memberDao.memberByDateOfBirth(requestMemberDto.dateOfBirth()).ifPresent(existingDateOfBirthMember -> {
-            throw new DateOfBirthExists("Date of birth already exists");
+            throw new DateOfBirthExists(requestMemberDto.dateOfBirth());
         });
 
         Address address = serviceAddress.find(requestMemberDto.address());
@@ -159,7 +159,7 @@ public class ServiceMemberImpl implements ServiceMember {
         memberDao.memberByDateOfBirth(dateOfBirth)
                 .filter(member -> !Objects.equals(member.getId(), idToIgnore))
                 .ifPresent(member -> {
-                    throw new DateOfBirthExists("Date of birth already exists");
+                    throw new DateOfBirthExists(dateOfBirth);
                 });
     }
 }

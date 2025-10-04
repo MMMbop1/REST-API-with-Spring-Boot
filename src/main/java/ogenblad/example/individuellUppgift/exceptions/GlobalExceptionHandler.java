@@ -46,10 +46,4 @@ public class GlobalExceptionHandler {
     public String illegalArgument(IllegalArgumentException ex) {
         return ex.getMessage();
     }
-
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(DataIntegrityViolationException.class)
-    public String dateOfBirthAlreadyExists(DataIntegrityViolationException ex) {
-        return "Make sure to send a proper unique date of birth";
-    }
 }
