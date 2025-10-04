@@ -7,6 +7,7 @@ import ogenblad.example.individuellUppgift.dto.PatchMemberDto;
 import ogenblad.example.individuellUppgift.dto.ResponseMemberDto;
 import ogenblad.example.individuellUppgift.entity.Address;
 import ogenblad.example.individuellUppgift.entity.Member;
+import ogenblad.example.individuellUppgift.exceptions.DateOfBirthExists;
 import ogenblad.example.individuellUppgift.exceptions.MemberNotFoundException;
 import ogenblad.example.individuellUppgift.mapper.Mapper;
 import ogenblad.example.individuellUppgift.repository.DaoMember;
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Service;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -62,6 +64,8 @@ public class ServiceMemberImpl implements ServiceMember {
         Address address = serviceAddress.find(requestMemberDto.address());
         AppUser appUser = member.getAppUser();
 
+        dateOfBirthIsUnique(requestMemberDto.dateOfBirth(), member.getId());
+
         Member updateMember = Mapper.memberDtoToMember(requestMemberDto, address, appUser);
 
         updateMember.setId(id);
@@ -74,11 +78,15 @@ public class ServiceMemberImpl implements ServiceMember {
     public ResponseMemberDto update(RequestMemberDto requestMemberDto, Long id, Principal principal) {
         Member member = memberDao.find(id).orElseThrow(() -> new MemberNotFoundException(id));
 
-        AppUser appUser = userDao.findByUsername(principal.getName()).orElseThrow();
+        AppUser appUser = userDao.findByUsername(principal.getName()).orElseThrow(() -> {
+            throw new IllegalArgumentException("No user with that username");
+        });
 
         if (!member.getId().equals(appUser.getMember().getId())) {
             throw new IllegalArgumentException("You are not allowed to update other users");
         }
+
+        dateOfBirthIsUnique(requestMemberDto.dateOfBirth(), member.getId());
 
         Address address = serviceAddress.find(requestMemberDto.address());
         Member updateMember = Mapper.memberDtoToMember(requestMemberDto, address);
@@ -114,6 +122,7 @@ public class ServiceMemberImpl implements ServiceMember {
         }
 
         if (patchMemberDto.dateOfBirth() != null) {
+            dateOfBirthIsUnique(patchMemberDto.dateOfBirth(), member.getId());
             member.setDateOfBirth(patchMemberDto.dateOfBirth());
         }
 
@@ -123,8 +132,13 @@ public class ServiceMemberImpl implements ServiceMember {
     @Override
     @Transactional
     public ResponseMemberDto save(RequestMemberDto requestMemberDto) {
+        memberDao.memberByDateOfBirth(requestMemberDto.dateOfBirth()).ifPresent(existingDateOfBirthMember -> {
+            throw new DateOfBirthExists("Date of birth already exists");
+        });
+
         Address address = serviceAddress.find(requestMemberDto.address());
         Member savedMember = Mapper.memberDtoToMember(requestMemberDto, address);
+
         return Mapper.toResponseMemberDto(memberDao.save(savedMember));
     }
 
@@ -139,5 +153,13 @@ public class ServiceMemberImpl implements ServiceMember {
     public void delete(Long id) {
         Member member = memberDao.find(id).orElseThrow(() -> new MemberNotFoundException(id));
         memberDao.delete(member);
+    }
+
+    private void dateOfBirthIsUnique(String dateOfBirth, Long idToIgnore) {
+        memberDao.memberByDateOfBirth(dateOfBirth)
+                .filter(member -> !Objects.equals(member.getId(), idToIgnore))
+                .ifPresent(member -> {
+                    throw new DateOfBirthExists("Date of birth already exists");
+                });
     }
 }
