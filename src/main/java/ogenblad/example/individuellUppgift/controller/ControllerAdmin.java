@@ -8,8 +8,6 @@ import ogenblad.example.individuellUppgift.entity.Member;
 import ogenblad.example.individuellUppgift.service.ServiceMember;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.config.annotation.authentication.configuration.EnableGlobalAuthentication;
-import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
