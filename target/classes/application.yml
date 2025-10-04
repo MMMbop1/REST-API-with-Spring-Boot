@@ -16,4 +16,9 @@ spring:
     properties:
       hibernate:
         generate_statistics: true
+---
+spring:
+  config:
+    activate:
+      on-profile: disable-security
 

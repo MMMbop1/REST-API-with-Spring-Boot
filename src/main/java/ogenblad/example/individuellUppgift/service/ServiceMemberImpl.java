@@ -60,6 +60,8 @@ public class ServiceMemberImpl implements ServiceMember {
     public Member update(RequestMemberDto requestMemberDto, Long id) {
         Member member = memberDao.find(id).orElseThrow(() -> new MemberNotFoundException(id));
 
+
+
         Address address = serviceAddress.find(requestMemberDto.address());
 
         Member updateMember = mapper.memberDtoToMember(requestMemberDto, address);
