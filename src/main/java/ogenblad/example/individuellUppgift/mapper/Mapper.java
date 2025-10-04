@@ -11,17 +11,15 @@ import org.springframework.stereotype.Component;
 @Component
 public class Mapper {
 
-    public Mapper() {}
-
-    public DietMemberDto toDietMembertDto(Member member) {
+    public static DietMemberDto toDietMembertDto(Member member) {
         return new DietMemberDto(member.getFirstName(), member.getLastName(), member.getAddress(), member.getEmail(), member.getPhone());
     }
 
-    public Member memberDtoToMember(RequestMemberDto requestMemberDto, Address address) {
+    public static Member memberDtoToMember(RequestMemberDto requestMemberDto, Address address) {
         return new Member(requestMemberDto.firstName(), requestMemberDto.lastName(), address, requestMemberDto.email(), requestMemberDto.phone(), requestMemberDto.dateOfBirth());
     }
 
-    public ResponseMemberDto toResponseMemberDto(Member member) {
+    public static ResponseMemberDto toResponseMemberDto(Member member) {
         return new ResponseMemberDto(member.getId(), member.getFirstName(), member.getLastName(), member.getAddress(), member.getEmail(), member.getPhone(), member.getDateOfBirth());
     }
 }

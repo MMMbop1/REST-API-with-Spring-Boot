@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ServiceMemberImpl implements ServiceMember {
@@ -24,40 +25,33 @@ public class ServiceMemberImpl implements ServiceMember {
     private final DaoMember memberDao;
     private final ServiceAddress serviceAddress;
     private final DaoUser userDao;
-    private final Mapper mapper;
 
-    public ServiceMemberImpl(DaoMember memberDao, ServiceAddress serviceAddress, Mapper mapper, DaoUser userDao) {
+    public ServiceMemberImpl(DaoMember memberDao, ServiceAddress serviceAddress, DaoUser userDao) {
        this.memberDao = memberDao;
        this.serviceAddress = serviceAddress;
-       this.mapper = mapper;
        this.userDao = userDao;
     }
 
     @Override
     public ResponseMemberDto find(Long id) {
         Member member = memberDao.find(id).orElseThrow(() -> new MemberNotFoundException(id));
-        ResponseMemberDto responseMemberDto = mapper.toResponseMemberDto(member);
-
-        return responseMemberDto;
+        return Mapper.toResponseMemberDto(member);
     }
 
     @Override
     public List<ResponseMemberDto> findAll() {
-        List<ResponseMemberDto> memberDtos = new ArrayList<>();
-        memberDao.findAll().forEach((member) -> memberDtos.add(mapper.toResponseMemberDto(member)));
-
-        return memberDtos;
+        return memberDao.findAll()
+                .stream()
+                .map(Mapper::toResponseMemberDto)
+                .collect(Collectors.toList());
     }
 
     @Override
     public List<DietMemberDto> findAllDietMembers() {
-        List<DietMemberDto> memberDtos = new ArrayList<>();
-
-        memberDao.findAll().forEach(member -> {
-            memberDtos.add(mapper.toDietMembertDto(member));
-        });
-
-        return memberDtos;
+        return memberDao.findAll()
+                .stream()
+                .map(Mapper::toDietMembertDto)
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -67,7 +61,7 @@ public class ServiceMemberImpl implements ServiceMember {
 
         Address address = serviceAddress.find(requestMemberDto.address());
 
-        Member updateMember = mapper.memberDtoToMember(requestMemberDto, address);
+        Member updateMember = Mapper.memberDtoToMember(requestMemberDto, address);
         updateMember.setId(id);
 
         return memberDao.update(updateMember);
@@ -84,7 +78,7 @@ public class ServiceMemberImpl implements ServiceMember {
         }
 
         Address address = serviceAddress.find(requestMemberDto.address());
-        Member updateMember = mapper.memberDtoToMember(requestMemberDto, address);
+        Member updateMember = Mapper.memberDtoToMember(requestMemberDto, address);
         updateMember.setId(id);
 
         return memberDao.update(updateMember);
