@@ -17,13 +17,13 @@ public interface ServiceMember {
 
     ResponseMemberDto find(Long id);
 
-    Member update(RequestMemberDto member, Long id);
+    ResponseMemberDto update(RequestMemberDto member, Long id);
 
     Member update(RequestMemberDto member, Long id, Principal principal);
 
-    Member patchUpdate(PatchMemberDto patchMember, Long id);
+    ResponseMemberDto patchUpdate(PatchMemberDto patchMember, Long id);
 
-    Member save(Member postMember);
+    ResponseMemberDto save(RequestMemberDto requestMemberDto);
 
     List<Member> saveAll(List<Member> members);
 

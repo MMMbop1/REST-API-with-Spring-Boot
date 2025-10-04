@@ -57,6 +57,16 @@ public class Member {
         this.dateOfBirth = dateOfBirth;
     }
 
+    public Member(String firstName, String lastName, Address address, String email, String phone, String dateOfBirth, AppUser appUser) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.address = address;
+        this.email = email;
+        this.phone = phone;
+        this.dateOfBirth = dateOfBirth;
+        this.appUser = appUser;
+    }
+
     public Long getId() {
         return id;
     }

@@ -56,15 +56,16 @@ public class ServiceMemberImpl implements ServiceMember {
 
     @Override
     @Transactional
-    public Member update(RequestMemberDto requestMemberDto, Long id) {
+    public ResponseMemberDto update(RequestMemberDto requestMemberDto, Long id) {
         Member member = memberDao.find(id).orElseThrow(() -> new MemberNotFoundException(id));
-
         Address address = serviceAddress.find(requestMemberDto.address());
+        AppUser appUser = member.getAppUser();
 
-        Member updateMember = Mapper.memberDtoToMember(requestMemberDto, address);
+        Member updateMember = Mapper.memberDtoToMember(requestMemberDto, address, appUser);
+
         updateMember.setId(id);
 
-        return memberDao.update(updateMember);
+        return Mapper.toResponseMemberDto(memberDao.update(updateMember));
     }
 
     @Override
@@ -73,6 +74,7 @@ public class ServiceMemberImpl implements ServiceMember {
         Member member = memberDao.find(id).orElseThrow(() -> new MemberNotFoundException(id));
 
         AppUser appUser = userDao.findByUsername(principal.getName()).orElseThrow();
+
         if (!member.getId().equals(appUser.getMember().getId())) {
             throw new IllegalArgumentException("You are not allowed to update other users");
         }
@@ -86,7 +88,7 @@ public class ServiceMemberImpl implements ServiceMember {
 
     @Override
     @Transactional
-    public Member patchUpdate(PatchMemberDto patchMemberDto, Long id) {
+    public ResponseMemberDto patchUpdate(PatchMemberDto patchMemberDto, Long id) {
         Member member = memberDao.find(id).orElseThrow(() -> new MemberNotFoundException(id));
 
         if (patchMemberDto.firstName() != null) {
@@ -114,13 +116,15 @@ public class ServiceMemberImpl implements ServiceMember {
             member.setDateOfBirth(patchMemberDto.dateOfBirth());
         }
 
-        return memberDao.update(member);
+        return Mapper.toResponseMemberDto(memberDao.update(member));
     }
 
     @Override
     @Transactional
-    public Member save(Member postMember) {
-        return memberDao.save(postMember);
+    public ResponseMemberDto save(RequestMemberDto requestMemberDto) {
+        Address address = serviceAddress.find(requestMemberDto.address());
+        Member savedMember = Mapper.memberDtoToMember(requestMemberDto, address);
+        return Mapper.toResponseMemberDto(memberDao.save(savedMember));
     }
 
     @Override

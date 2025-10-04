@@ -32,20 +32,20 @@ public class ControllerAdmin {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Member> putMember(@PathVariable Long id, @RequestBody @Valid RequestMemberDto member) {
-        return ResponseEntity.ok().body(serviceMember.update(member, id));
+    public ResponseEntity<ResponseMemberDto> putMember(@PathVariable Long id,
+                                                       @RequestBody @Valid RequestMemberDto requestMemberDto) {
+        return ResponseEntity.ok().body(serviceMember.update(requestMemberDto, id));
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<Member> patchMember(@PathVariable Long id, @RequestBody @Valid PatchMemberDto patchMemberDto) {
-        return ResponseEntity
-                .ok()
-                .body(serviceMember.patchUpdate(patchMemberDto, id));
+    public ResponseEntity<ResponseMemberDto> patchMember(@PathVariable Long id,
+                                              @RequestBody @Valid PatchMemberDto patchMemberDto) {
+        return ResponseEntity.ok().body(serviceMember.patchUpdate(patchMemberDto, id));
     }
 
     @PostMapping
-    public ResponseEntity<Member> postMember(@RequestBody @Valid Member member) {
-        Member savedMember = serviceMember.save(member);
+    public ResponseEntity<ResponseMemberDto> postMember(@RequestBody @Valid RequestMemberDto requestMemberDto) {
+        ResponseMemberDto savedMember = serviceMember.save(requestMemberDto);
         return ResponseEntity.ok().body(savedMember);
     }
 
