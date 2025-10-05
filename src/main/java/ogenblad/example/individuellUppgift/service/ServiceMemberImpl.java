@@ -106,8 +106,8 @@ public class ServiceMemberImpl implements ServiceMember {
             member.setLastName(patchMemberDto.lastName());
         }
 
-        if (patchMemberDto.addressId() != null) {
-            Address address = serviceAddress.find(patchMemberDto.addressId());
+        if (patchMemberDto.address() != null) {
+            Address address = serviceAddress.find(patchMemberDto.address());
             member.setAddress(address);
         }
 
@@ -154,7 +154,7 @@ public class ServiceMemberImpl implements ServiceMember {
     }
 
     private void dateOfBirthIsUnique(String dateOfBirth, Long idToIgnore) {
-        memberDao.memberByDateOfBirth(dateOfBirth)
+        memberDao.memberByDateOfBirth(dateOfBirth)  
                 .filter(member -> !Objects.equals(member.getId(), idToIgnore))
                 .ifPresent(member -> {
                     throw new DateOfBirthExists(dateOfBirth);

@@ -42,10 +42,9 @@ public class Member {
     @Column(unique = true, nullable = false)
     private String dateOfBirth;
 
-    @OneToOne(mappedBy = "member", cascade = CascadeType.PERSIST)
+    @OneToOne(mappedBy = "member", cascade = CascadeType.ALL)
     private AppUser appUser;
 
-    /** protected? */
     public Member() {}
 
     public Member(String firstName, String lastName, Address address, String email, String phone, String dateOfBirth) {
@@ -71,7 +70,6 @@ public class Member {
         return id;
     }
 
-    /** private? */
     public void setId(Long id) {
         this.id = id;
     }

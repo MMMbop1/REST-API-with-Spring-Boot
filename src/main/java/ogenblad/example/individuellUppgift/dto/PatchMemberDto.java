@@ -13,7 +13,7 @@ public record PatchMemberDto (
             message = "Minimum length for name is 2 characters and maximum 100.")
     String lastName,
 
-    Long addressId,
+    Long address,
 
     @Pattern(regexp = "\\w|.{1,50}@\\w{1,20}\\.\\w{1,10}",
             message = "Email must match the pattern: local part (1–50 chars) + '@' + domain (1–20 chars) + top-level domain.")
