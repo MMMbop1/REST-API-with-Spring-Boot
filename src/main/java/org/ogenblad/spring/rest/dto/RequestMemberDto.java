@@ -1,0 +1,32 @@
+package org.ogenblad.spring.rest.dto;
+
+import jakarta.validation.constraints.*;
+
+public record RequestMemberDto(
+        @NotBlank
+        @Size(min = 2, max = 100,
+                message = "Minimum length for name is 2 characters and maximum 100.")
+        String firstName,
+
+        @NotBlank
+        @Size(min = 2, max = 100,
+                message = "Minimum length for name is 2 characters and maximum 100.")
+        String lastName,
+
+        @NotNull(message = "Address Id can not be empty")
+        Long address,
+
+        @NotBlank
+        @Pattern(regexp = "\\w|.{1,50}@\\w{1,20}\\.\\w{1,10}",
+                message = "Email must match the pattern: local part (1–50 chars) + '@' + domain (1–20 chars) + top-level domain.")
+        String email,
+
+        @Size(max = 15,
+                message = "maximum length is 15 characters")
+        String phone,
+
+        @Size(min = 12, max = 12,
+                message = "must be 12 characters length in format YYYYMMDDXXXX")
+        @Pattern(regexp = "\\d{12}", message = "Accepted format for dateOfBirth YYYYMMDDXXXX")
+        String dateOfBirth
+) {}
