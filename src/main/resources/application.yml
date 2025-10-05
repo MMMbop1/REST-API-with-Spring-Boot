@@ -1,6 +1,6 @@
 spring:
   application:
-    name: Individuell-Uppgift-Ludvig-Ogenblad
+    name: SPRING-REST
   profiles:
     active: production
   datasource:
