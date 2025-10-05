@@ -1,48 +1,62 @@
 package ogenblad.example.individuellUppgift.exceptions;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public String validationErrors(MethodArgumentNotValidException ex) {
-        StringBuilder errors = new StringBuilder();
+    public ResponseEntity<Map<String, String>> validationErrors(MethodArgumentNotValidException ex) {
+        Map<String, String> map = new HashMap<>();
+
         ex.getBindingResult()
                 .getFieldErrors()
                 .forEach((val) ->
-                        errors.append(val.getDefaultMessage()).append("\n")
+                        map.put(val.getField(), val.getDefaultMessage())
                 );
 
-        return errors.toString();
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(map);
     }
 
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(DateOfBirthExists.class)
-    public String dateOfBirthAlreadyExists(DateOfBirthExists ex) {
-        return ex.getMessage();
+    public ResponseEntity<Map<String, String>> dateOfBirthAlreadyExists(DateOfBirthExists ex) {
+        return ResponseEntity.status(HttpStatus.CONFLICT)
+                .body(Map.of(
+                        "Error", ex.getMessage()
+                ));
     }
 
-    @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(AddressNotFoundException.class)
-    public String addressDoesNotExist(AddressNotFoundException ex) {
-        return ex.getMessage();
+    public ResponseEntity<Map<String, String>> addressDoesNotExist(AddressNotFoundException ex) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(Map.of(
+                        "Error", ex.getMessage()
+                ));
     }
 
-    @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(MemberNotFoundException.class)
-    public String memberDoesNotExist(MemberNotFoundException ex) {
-        return ex.getMessage();
+    public ResponseEntity<Map<String, String>> memberDoesNotExist(MemberNotFoundException ex) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(Map.of(
+                        "Error", ex.getMessage()
+                ));
     }
 
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(IllegalArgumentException.class)
-    public String illegalArgument(IllegalArgumentException ex) {
-        return ex.getMessage();
+    public ResponseEntity<Map<String, String>> illegalArgument(IllegalArgumentException ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(Map.of(
+                        "Error", ex.getMessage()
+                ));
     }
 }

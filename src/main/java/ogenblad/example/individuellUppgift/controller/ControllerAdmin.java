@@ -9,6 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.*;
 
 @RestController
@@ -49,9 +51,11 @@ public class ControllerAdmin {
 
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<ResponseMemberDto> postMember(@RequestBody @Valid RequestMemberDto requestMemberDto) {
+    public ResponseEntity<ResponseMemberDto> postMember(@RequestBody @Valid RequestMemberDto requestMemberDto) throws URISyntaxException {
         ResponseMemberDto savedMember = serviceMember.save(requestMemberDto);
-        return ResponseEntity.ok().body(savedMember);
+        return ResponseEntity
+                .created(new URI("admin/members/" + savedMember.id()))
+                .body(savedMember);
     }
 
     @DeleteMapping("/{id}")
