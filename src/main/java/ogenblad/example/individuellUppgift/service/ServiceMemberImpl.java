@@ -51,7 +51,7 @@ public class ServiceMemberImpl implements ServiceMember {
     public List<DietMemberDto> findAllDietMembers() {
         return memberDao.findAll()
                 .stream()
-                .map(Mapper::toDietMembertDto)
+                .map(Mapper::toDietMemberDto)
                 .collect(Collectors.toList());
     }
 
@@ -154,7 +154,7 @@ public class ServiceMemberImpl implements ServiceMember {
     }
 
     private void dateOfBirthIsUnique(String dateOfBirth, Long idToIgnore) {
-        memberDao.memberByDateOfBirth(dateOfBirth)  
+        memberDao.memberByDateOfBirth(dateOfBirth)
                 .filter(member -> !Objects.equals(member.getId(), idToIgnore))
                 .ifPresent(member -> {
                     throw new DateOfBirthExists(dateOfBirth);

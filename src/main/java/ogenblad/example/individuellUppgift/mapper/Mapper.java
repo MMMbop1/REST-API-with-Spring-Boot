@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class Mapper {
 
-    public static DietMemberDto toDietMembertDto(Member member) {
+    public static DietMemberDto toDietMemberDto(Member member) {
         return new DietMemberDto(member.getFirstName(), member.getLastName(), member.getAddress(), member.getEmail(), member.getPhone());
     }
 
