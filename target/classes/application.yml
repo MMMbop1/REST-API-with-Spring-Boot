@@ -2,7 +2,7 @@ spring:
   application:
     name: Individuell-Uppgift-Ludvig-Ogenblad
   profiles:
-    active: dev
+    active: production
   datasource:
     generate-unique-name: false
     name: members-db
@@ -21,4 +21,13 @@ spring:
   config:
     activate:
       on-profile: disable-security
+---
+spring:
+  config:
+    config:
+      activate:
+        on-profile: production
+logging:
+  level:
+    root: OFF
 
